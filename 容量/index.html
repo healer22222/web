@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小学数学《容量》图文互动练习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        body {
+            background-color: #f0f8ff;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b3e5fc' fill-opacity='0.3'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            line-height: 1.8;
+            padding: 20px;
+        }
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 18px;
+            padding: 35px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 4px solid #81d4fa;
+        }
+        h1 {
+            color: #0288d1;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+        .section-title {
+            color: #0277bd;
+            font-size: 24px;
+            margin: 30px 0 20px;
+            padding-left: 12px;
+            border-left: 6px solid #03a9f4;
+        }
+        .subsection-title {
+            color: #01579b;
+            font-size: 20px;
+            margin: 20px 0 15px;
+        }
+        .question-card {
+            background-color: #e1f5fe;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        .q-number {
+            font-weight: bold;
+            color: #01579b;
+            font-size: 18px;
+            white-space: nowrap;
+        }
+        .q-content {
+            flex: 1;
+        }
+        .q-img {
+            width: 100%;
+            max-width: 400px;
+            height: 220px;
+            object-fit: contain;
+            border: 3px solid white;
+            border-radius: 10px;
+            margin: 15px 0;
+            background: #f9f9f9;
+        }
+        .options {
+            display: grid;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .option-item {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        .option-item input {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+        }
+        .option-item.selected {
+            border-color: #03a9f4;
+            background-color: #e3f2fd;
+        }
+        .option-item.right {
+            background: #e8f5e9 !important;
+            border: 2px solid #4caf50 !important;
+        }
+        .option-item.wrong {
+            background: #ffebee !important;
+            border: 2px solid #f44336 !important;
+        }
+        .result-mark {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            margin-left: 10px;
+        }
+        .result-mark.right {
+            background: #4caf50;
+        }
+        .result-mark.wrong {
+            background: #f44336;
+        }
+        .analysis-btn {
+            background: #673ab7;
+            color: #fff;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 8px;
+            display: none;
+        }
+        .analysis-box {
+            background: #f3e5f5;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: none;
+        }
+        .btn-group {
+            text-align: center;
+            margin: 40px 0;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        button {
+            background: #03a9f4;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #0288d1;
+        }
+        .score-page {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .score-num {
+            font-size: 60px;
+            font-weight: bold;
+            color: #0288d1;
+            margin: 20px 0;
+        }
+        .hidden {
+            display: none !important;
+        }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #666;
+            font-size: 14px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+        @media (max-width: 768px) {
+            .container { padding: 20px; }
+            h1 { font-size: 26px; }
+            .question-header { flex-direction: column; }
+            .q-img { max-width: 100%; height: 180px; }
+            .btn-group { flex-direction: column; }
+            button { width: 100%; margin: 10px 0; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="examPage">
+        <header>
+            <h1>小学数学《容量》图文互动练习</h1>
+            <p class="subtitle">观察图片 · 选择答案 · 掌握容量比较方法</p>
+        </header>
+
+        <h2 class="section-title">一、基础训练</h2>
+        <h3 class="subsection-title">（一）直接判断容量大小</h3>
+
+        <div class="question-card" data-q="1" data-ans="b" data-score="10">
+            <div class="question-header">
+                <span class="q-number">1.</span>
+                <div class="q-content">如下图所示，小明同学观察了家里的水杯和水壶，请你帮他判断一下哪个容器容量大，哪个容量小。</div>
+            </div>
+            <img class="q-img" src="img/水杯水壶.png" alt="水杯与水壶对比">
+            <div class="options">
+                <label class="option-item">
+                    <input type="radio" name="q1" value="a"> 水杯容量大，水壶容量小
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q1" value="b"> 水壶容量大，水杯容量小
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q1" value="c"> 水杯和水壶容量一样大
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q1" value="d"> 无法判断
+                </label>
+            </div>
+            <button class="analysis-btn" onclick="showAnalysis(1)">查看解析</button>
+            <div class="analysis-box" id="analysis1">解析：水壶能容纳的液体更多，因此容量更大。</div>
+        </div>
+
+        <div class="question-card" data-q="2" data-ans="d" data-score="10">
+            <div class="question-header">
+                <span class="q-number">2.</span>
+                <div class="q-content">下面是两个容器的图片（一个矮粗、一个高细），请你判断一下哪个容量大。</div>
+            </div>
+            <img class="q-img" src="img/高低粗细都不同.jpg" alt="矮粗与高细容器">
+            <div class="options">
+                <label class="option-item">
+                    <input type="radio" name="q2" value="a"> 矮粗容器容量大
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q2" value="b"> 高细容器容量大
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q2" value="c"> 两个容器容量一样大
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q2" value="d"> 无法判断
+                </label>
+            </div>
+            <button class="analysis-btn" onclick="showAnalysis(2)">查看解析</button>
+            <div class="analysis-box" id="analysis2">解析：仅凭高矮粗细无法准确判断容量大小，需要实际测量。</div>
+        </div>
+
+        <h3 class="subsection-title">（二）根据装物次数判断容量</h3>
+        <div class="question-card" data-q="3" data-ans="b" data-score="10">
+            <div class="question-header">
+                <span class="q-number">1.</span>
+                <div class="q-content">小红同学发现了一个很有趣的现象：用容器 A 装水，装满一个盆需要 5 次；用容器 B 装水，装满同一个盆需要 3 次。请你利用所学知识判断一下哪个容器容量更大</div>
+            </div>
+            <img class="q-img" src="img/碗杯桶.png" alt="容器装盆">
+            <div class="options">
+                <label class="option-item">
+                    <input type="radio" name="q3" value="a"> 容器 A 容量大，装的次数多
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q3" value="b"> 容器 B 容量大，装的次数少
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q3" value="c"> 两个容器容量一样大
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q3" value="d"> 无法判断
+                </label>
+            </div>
+            <button class="analysis-btn" onclick="showAnalysis(3)">查看解析</button>
+            <div class="analysis-box" id="analysis3">解析：装满同一个容器，使用次数越少，说明容器容量越大。</div>
+        </div>
+
+        <div class="question-card" data-q="4" data-ans="b" data-score="10">
+            <div class="question-header">
+                <span class="q-number">2.</span>
+                <div class="q-content">鼠小弟用容器 C 灌泳池，需要 6 次；换容器 D 灌泳池，需要 4 次。哪个容器能更快灌满泳池？</div>
+            </div>
+            <img class="q-img" src="img/鼠小弟.jpg" alt="容器灌泳池">
+            <div class="options">
+                <label class="option-item">
+                    <input type="radio" name="q4" value="a"> 容器 C
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q4" value="b"> 容器 D
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q4" value="c"> 一样快
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q4" value="d"> 无法判断
+                </label>
+            </div>
+            <button class="analysis-btn" onclick="showAnalysis(4)">查看解析</button>
+            <div class="analysis-box" id="analysis4">解析：灌满同一个泳池次数越少，速度越快。</div>
+        </div>
+
+        <h3 class="subsection-title">（三）容量比较变式问题</h3>
+        <div class="question-card" data-q="5" data-ans="b" data-score="10">
+            <div class="question-header">
+                <span class="q-number">1.</span>
+                <div class="q-content">两个一样高的杯子，一个粗、一个细，装满水后，哪个杯子装的水多？</div>
+            </div>
+            <img class="q-img" src="img/高低同粗细不同.png" alt="粗杯与细杯">
+            <div class="options">
+                <label class="option-item">
+                    <input type="radio" name="q5" value="a"> 细杯子装的水多
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q5" value="b"> 粗杯子装的水多
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q5" value="c"> 两个杯子装的水一样多
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q5" value="d"> 无法判断
+                </label>
+            </div>
+            <button class="analysis-btn" onclick="showAnalysis(5)">查看解析</button>
+            <div class="analysis-box" id="analysis5">解析：高度相同，杯子越粗，容量越大。</div>
+        </div>
+
+        <div class="question-card" data-q="6" data-ans="b" data-score="10">
+            <div class="question-header">
+                <span class="q-number">2.</span>
+                <div class="q-content">两个一样粗的杯子，一个高、一个矮，哪个杯子的容量大？</div>
+            </div>
+            <img class="q-img" src="img/粗细同高低不同.jpg" alt="高杯与矮杯">
+            <div class="options">
+                <label class="option-item">
+                    <input type="radio" name="q6" value="a"> 矮杯子容量大
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q6" value="b"> 高杯子容量大
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q6" value="c"> 两个杯子容量一样大
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q6" value="d"> 无法判断
+                </label>
+            </div>
+            <button class="analysis-btn" onclick="showAnalysis(6)">查看解析</button>
+            <div class="analysis-box" id="analysis6">解析：粗细相同，杯子越高，容量越大。</div>
+        </div>
+
+        <h2 class="section-title">二、拓展提升</h2>
+        <h3 class="subsection-title">（一）容量应用问题</h3>
+
+        <div class="question-card" data-q="7" data-ans="a" data-score="20">
+            <div class="question-header">
+                <span class="q-number">1.</span>
+                <div class="q-content">鼠小弟要给泳池装水，有三个容器：大桶（5 次装满）、中桶（7 次装满）、小桶（10 次装满），请你帮他选择，哪个容器最省时？</div>
+            </div>
+            <img class="q-img" src="img/三个桶.jpg" alt="三种水桶">
+            <div class="options">
+                <label class="option-item">
+                    <input type="radio" name="q7" value="a"> 大桶，装的次数最少
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q7" value="b"> 中桶，装的次数适中
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q7" value="c"> 小桶，装的次数最多
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q7" value="d"> 无法判断
+                </label>
+            </div>
+            <button class="analysis-btn" onclick="showAnalysis(7)">查看解析</button>
+            <div class="analysis-box" id="analysis7">解析：次数越少，容量越大，装水越快越省时。</div>
+        </div>
+
+        <div class="question-card" data-q="8" data-ans="b" data-score="20">
+            <div class="question-header">
+                <span class="q-number">2.</span>
+                <div class="q-content">鼠妈妈要装一碗米饭，有一个大碗和一个小碗，你觉得哪个容器更合适？</div>
+            </div>
+            <img class="q-img" src="img/妈妈给孩子盛饭 .png" alt="大碗与小碗">
+            <div class="options">
+                <label class="option-item">
+                    <input type="radio" name="q8" value="a"> 小碗，装的米饭刚好合适
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q8" value="b"> 大碗，装的米饭刚好合适
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q8" value="c"> 一样合适
+                </label>
+                <label class="option-item">
+                    <input type="radio" name="q8" value="d"> 无法判断
+                </label>
+            </div>
+            <button class="analysis-btn" onclick="showAnalysis(8)">查看解析</button>
+            <div class="analysis-box" id="analysis8">解析：大碗更适合装一碗正常分量的米饭，使用更合适。</div>
+        </div>
+
+        <div class="btn-group">
+            <button id="resetBtn" onclick="doReset()">重做</button>
+            <button id="submitBtn" onclick="doSubmit()">提交</button>
+        </div>
+
+        <footer>
+            <p>© 2025 小学数学教学资源 | 容量概念专项练习</p>
+        </footer>
+    </div>
+
+    <div class="container hidden" id="resultPage">
+        <div class="score-page">
+            <h1>练习完成</h1>
+            <div class="score-num" id="scoreShow">0</div>
+            <p>总分：100 分</p>
+            <div class="btn-group">
+                <button onclick="showOnlyWrong()">查看错题</button>
+                <button onclick="backAndReset()">重做</button>
+            </div>
+            <div class="btn-group">
+                <button onclick="showAllAndBack()">返回</button>
+                <button onclick="showAIReport()">查看AI解析报告</button>
+            </div>
+            <div id="aiReportArea" style="display:none; margin-top:30px; text-align:left; background:#f8f9ff; padding:20px; border-radius:12px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // ========== 全局状态 ==========
+        let permanentRight = new Array(8).fill(false); // 永久正确：未被重做覆盖的题目
+        let totalScore = 0;
+
+        // 显示/隐藏解析
+        function showAnalysis(q) {
+            const el = document.getElementById('analysis' + q);
+            el.style.display = el.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // 收集当前答案
+        function getCurrentAns() {
+            let arr = [];
+            document.querySelectorAll('.question-card').forEach(c => {
+                const r = c.querySelector('input[type="radio"]:checked');
+                arr.push(r ? r.value : '');
+            });
+            return arr;
+        }
+
+        // 清空做题痕迹 + 隐藏解析按钮（只在点“重做”时调用）
+        function clearAllTraces() {
+            // 清空选择
+            document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+            // 清除对错样式
+            document.querySelectorAll('.option-item').forEach(o => o.classList.remove('right', 'wrong'));
+            // 清除对错标记
+            document.querySelectorAll('.result-mark').forEach(m => m.remove());
+            // 隐藏解析
+            document.querySelectorAll('.analysis-box').forEach(b => b.style.display = 'none');
+            // 隐藏解析按钮
+            document.querySelectorAll('.analysis-btn').forEach(btn => btn.style.display = 'none');
+        }
+
+        // 计分规则：
+        // 1. 隐藏的题目：保留永久得分
+        // 2. 显示的题目：本次作答正确得分
+        function calcTotalScore() {
+            const cur = getCurrentAns();
+            const cards = document.querySelectorAll('.question-card');
+            let score = 0;
+
+            cards.forEach((c, i) => {
+                const isHidden = c.classList.contains('hidden');
+                const correctAns = c.dataset.ans;
+                const qScore = parseInt(c.dataset.score);
+                
+                if(isHidden){
+                    // 隐藏题目：永久正确才计分
+                    if(permanentRight[i]) score += qScore;
+                }else{
+                    // 显示题目：本次正确计分，并更新永久状态
+                    const isRight = cur[i] === correctAns;
+                    if(isRight) score += qScore;
+                    permanentRight[i] = isRight;
+                }
+            });
+            return score;
+        }
+
+        // 标记对错（提交后显示痕迹）
+        function markAnswers() {
+            const cur = getCurrentAns();
+            document.querySelectorAll('.question-card').forEach((c, i) => {
+                if(c.classList.contains('hidden')) return;
+                
+                const correct = c.dataset.ans;
+                const user = cur[i];
+                const opts = c.querySelectorAll('.option-item');
+                
+                opts.forEach(o => {
+                    const v = o.querySelector('input').value;
+                    o.classList.remove('right', 'wrong');
+                    if (v === correct) o.classList.add('right');
+                    if (v === user && user !== correct) o.classList.add('wrong');
+                });
+                
+                let m = c.querySelector('.result-mark');
+                if (!m) {
+                    m = document.createElement('span');
+                    m.className = 'result-mark';
+                    c.querySelector('.q-number').appendChild(m);
+                }
+                m.textContent = user === correct ? '✓' : '✗';
+                m.className = 'result-mark ' + (user === correct ? 'right' : 'wrong');
+                
+                // 显示解析按钮
+                c.querySelector('.analysis-btn').style.display = 'inline-block';
+            });
+        }
+
+        // 提交
+        function doSubmit() {
+            totalScore = calcTotalScore();
+            markAnswers();
+            document.getElementById('scoreShow').textContent = totalScore;
+            document.getElementById('examPage').classList.add('hidden');
+            document.getElementById('resultPage').classList.remove('hidden');
+        }
+
+        // 重做：清空痕迹 + 重置显示题目的永久状态
+        function doReset() {
+            clearAllTraces(); // 只有这里调用清空
+            // 重置当前显示题目的正确状态
+            document.querySelectorAll('.question-card:not(.hidden)').forEach((c, idx) => {
+                const qNum = parseInt(c.dataset.q) - 1;
+                permanentRight[qNum] = false;
+            });
+            document.getElementById('resetBtn').textContent = '重做';
+            document.getElementById('submitBtn').textContent = '提交';
+        }
+
+        // 完全重置（回到初始状态）
+        function fullReset() {
+            permanentRight.fill(false);
+            totalScore = 0;
+            clearAllTraces();
+            document.querySelectorAll('.question-card').forEach(c => c.classList.remove('hidden'));
+        }
+
+        // 返回并完全重置
+        function backAndReset() {
+            fullReset();
+            document.getElementById('resultPage').classList.add('hidden');
+            document.getElementById('examPage').classList.remove('hidden');
+        }
+
+        // 显示全部题目（保留痕迹、解析）
+        function showAllAndBack() {
+            document.querySelectorAll('.question-card').forEach(c => c.classList.remove('hidden'));
+            // 不清空痕迹！
+            document.getElementById('resetBtn').textContent = '重做当前题目';
+            document.getElementById('submitBtn').textContent = '提交';
+            document.getElementById('resultPage').classList.add('hidden');
+            document.getElementById('examPage').classList.remove('hidden');
+        }
+
+        // 只看错题（保留痕迹、解析）
+        function showOnlyWrong() {
+            const cur = getCurrentAns();
+            document.querySelectorAll('.question-card').forEach((c, i) => {
+                const isWrong = !permanentRight[i];
+                c.classList.toggle('hidden', !isWrong);
+            });
+            // 不清空痕迹！
+            document.getElementById('resetBtn').textContent = '重做当前题目';
+            document.getElementById('submitBtn').textContent = '提交';
+            document.getElementById('resultPage').classList.add('hidden');
+            document.getElementById('examPage').classList.remove('hidden');
+        }
+
+        // AI报告
+        function showAIReport() {
+            const wrong = [];
+            document.querySelectorAll('.question-card').forEach((c, i) => {
+                if (!permanentRight[i]) wrong.push(i + 1);
+            });
+            const area = document.getElementById('aiReportArea');
+            area.style.display = 'block';
+            area.innerHTML = `
+                <h3>AI 学习解析报告</h3>
+                <p>本次得分：${totalScore} / 100</p>
+                <p>做错题目：${wrong.length ? wrong.join('、') : '无错题'}</p>
+                <p>易错知识点：容量大小判断、容器形状与容量关系、装水次数比较</p>
+                <p>常见错误原因：只看外观不看实际容量、忽略“同样目标容器”这一前提。</p>
+            `;
+        }
+    </script>
+</body>
+</html>
